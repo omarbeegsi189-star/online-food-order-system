@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                </div>
+                <ul>
+                    <li><a href="index.html">Dashboard Home</a></li>
+                    <li><a href="manage-menu.html">Manage Menu</a></li>
+                    <li><a href="orders.html" class="active">View Orders</a></li>
+                    <li><a href="order-status.html">Update Order Status</a></li>
+                    <li><a href="reports.html">View Reports</a></li>
+                    <li><a href="manage-admins.html">Admin & Delivery Management</a></li>
+                </ul>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                    <span>Admin Panel</span>
+                </div>
+                <div class="admin-info">
+                    Welcome, Admin
+                </div>
+                <button id="theme-toggle" class="theme-toggle-btn">☀</button>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content">
+                <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; margin-bottom: 30px; color: var(--text-color);">View Orders</h1>
+
+                <!-- Search/Filter Section -->
+                <div class="card" id="search-filter-section">
+                    <h3>Search & Filter Orders</h3>
+                    <form id="search-filter-form" style="margin-top: 15px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label for="search-order">Search by Order ID or Customer</label>
+                                <input type="text" id="search-order" name="search-order" placeholder="Enter order ID or customer name">
+                            </div>
+                            <div class="form-group">
+                                <label for="filter-status">Filter by Status</label>
+                                <select id="filter-status" name="filter-status">
+                                    <option value="">All Statuses</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Preparing">Preparing</option>
+                                    <option value="Out for Delivery">Out for Delivery</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="filter-date">Filter by Date</label>
+                                <input type="date" id="filter-date" name="filter-date">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn" id="apply-filters-btn" style="margin-top: 15px;">Apply Filters</button>
+                    </form>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="card">
+                    <h3>All Orders</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tbody = document.getElementById('orders-tbody');
+            const searchInput = document.getElementById('search-order');
+            const statusFilter = document.getElementById('filter-status');
+            const dateFilter = document.getElementById('filter-date');
+            const applyBtn = document.getElementById('apply-filters-btn');
+
+            let allOrders = [];
+
+            async function loadOrders() {
+                try {
+                    allOrders = await API.getOrders();
+                    renderOrders(allOrders);
+                } catch (error) {
+                    tbody.innerHTML = '<tr><td colspan="6">Error loading orders</td></tr>';
+                }
+            }
+
+                function renderOrders(orders) {
+                    if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No orders found</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = orders.map(order => `
+                    <tr>
+                        <td>#${order.id}</td>
+                        <td>
+                            <div>${order.customer_name || 'Guest'}</div>
+                            <div style="font-size: 12px; color: var(--muted-text);">${order.customer_phone || ''}</div>
+                            <div style="font-size: 12px; color: var(--muted-text);">${order.customer_address || ''}</div>
+                        </td>
+                        <td>${order.items_summary || 'N/A'}</td>
+                        <td>$${order.total_amount}</td>
+                        <td><span class="status ${order.status.toLowerCase().replace(/ /g, '-')}">${order.status}</span></td>
+                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                    </tr>
+                `).join('');
+            }
+
+            applyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                let filtered = allOrders;
+
+                const search = searchInput.value.toLowerCase();
+                if (search) {
+                    filtered = filtered.filter(o => 
+                        o.id.toString().includes(search) || 
+                        (o.customer_name && o.customer_name.toLowerCase().includes(search))
+                    );
+                }
+
+                const status = statusFilter.value;
+                if (status) {
+                    filtered = filtered.filter(o => o.status.toLowerCase() === status.toLowerCase());
+                }
+
+                const date = dateFilter.value;
+                if (date) {
+                    filtered = filtered.filter(o => new Date(o.created_at).toISOString().split('T')[0] === date);
+                }
+
+                renderOrders(filtered);
+            });
+
+            loadOrders();
+        });
+    </script>
+</body>
+</html>

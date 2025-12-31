@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Food Ordering - Login Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --brand-red: #E94560;
+            --brand-purple: #7B2CBF;
+        }
+        .animated-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            pointer-events: none;
+            background: linear-gradient(120deg,
+                var(--brand-red) 0%,
+                var(--brand-purple) 50%,
+                var(--brand-red) 100%
+            );
+            background-size: 250% 250%;
+            animation: gradientShift 30s ease-in-out infinite;
+            will-change: background-position, filter;
+        }
+        .animated-bg::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            background: conic-gradient(from 0deg at 50% 50%,
+                rgba(233, 69, 96, 0.35),
+                rgba(123, 44, 191, 0.35),
+                rgba(233, 69, 96, 0.35)
+            );
+            animation: rotateHue 60s linear infinite;
+            opacity: 0.6;
+        }
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(4px);
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; filter: saturate(1) brightness(1); }
+            25% { background-position: 50% 0%; filter: saturate(1.02) brightness(1.02); }
+            50% { background-position: 100% 50%; filter: saturate(1.05) brightness(1.05); }
+            75% { background-position: 50% 100%; filter: saturate(1.02) brightness(1.02); }
+            100% { background-position: 0% 50%; filter: saturate(1) brightness(1); }
+        }
+        @keyframes rotateHue {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .container, .login-wrapper {
+            position: relative;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .animated-bg, .animated-bg::before {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="bg-overlay"></div>
+    <div class="container">
+        <div class="login-wrapper">
+            <h1>HEALTH BITES</h1>
+            <p class="subtitle">Please select your role to login</p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab('admin')">Health bites Admin</button>
+                <button class="tab-btn" onclick="openTab('delivery')">Health bites Delivery</button>
+            </div>
+
+            <!-- Customer login removed; Customer pages are public and authenticate in-flow -->
+
+            <div class="tab-content" id="admin">
+                <h2>HEALTHBITES ADMIN</h2>
+                <form id="admin-login-form">
+                    <div class="input-group">
+                        <label>Admin Name</label>
+                        <input type="text" id="admin-username" required placeholder="Enter admin name">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="admin-password" required placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="login-btn admin-btn">Login as Admin</button>
+                </form>
+                
+            </div>
+
+            <div class="tab-content hidden" id="delivery">
+                <h2>HEALTHBITES DELIVERY</h2>
+                <form id="delivery-login-form">
+                    <div class="input-group">
+                        <label>Delivery Name</label>
+                        <input type="text" id="delivery-username" required placeholder="Enter delivery name">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="delivery-password" required placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="login-btn delivery-btn">Login as Delivery</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

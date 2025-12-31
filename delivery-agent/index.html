@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Agent Dashboard - Healthy Food</title>
+    <link rel="stylesheet" href="delivery-agent.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="delivery-agent-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                </div>
+                <ul>
+                    <li><a href="#assigned-orders" class="active" data-section="assigned-orders">View Assigned Orders</a></li>
+                    <li><a href="#update-status" data-section="update-status">Delivery History</a></li>
+                </ul>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                    <span>Delivery Agent Panel</span>
+                </div>
+               
+                <button id="theme-toggle" class="theme-toggle-btn">☀</button>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content">
+        <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; margin-bottom: 30px; color: var(--text-color);">Delivery Dashboard</h1>
+
+        <!-- Assigned Orders Section -->
+        <div id="assigned-orders-section" class="section active">
+            <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 20px; color: var(--text-color);">Assigned Orders</h2>
+            <div class="orders-grid" id="assigned-orders-list">
+                <!-- Order cards will be populated here by JS -->
+                <div class="loading-spinner">Loading orders...</div>
+            </div>
+        </div>
+
+        <!-- Update Status Section -->
+        <div id="update-status-section" class="section">
+                    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 20px; color: var(--text-color);">Delivery History</h2>
+                    <div class="orders-grid" id="delivery-history-list">
+                        <div class="loading-spinner">Loading delivered orders...</div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../theme.js"></script>
+    <script src="delivery-agent.js"></script>
+</body>
+</html>

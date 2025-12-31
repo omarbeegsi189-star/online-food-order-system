@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Healthy Food</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                </div>
+                <ul>
+                    <li><a href="index.html" class="active">Dashboard Home</a></li>
+                    <li><a href="manage-menu.html">Manage Menu</a></li>
+                    <li><a href="orders.html">View Orders</a></li>
+                    <li><a href="order-status.html">Update Order Status</a></li>
+                    <li><a href="reports.html">View Reports</a></li>
+                    <li><a href="manage-admins.html">Admin & Delivery Management</a></li>
+                </ul>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                    <span>Admin Panel</span>
+                </div>
+                <div class="actions" style="display: flex; align-items: center; gap: 20px; margin-left: auto;">
+                    <div class="admin-info">
+                        Welcome, Admin
+                    </div>
+                    <button class="icon-btn" id="notifications-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+                    <button class="icon-btn" id="settings-btn" title="Settings"><i class="fas fa-cog"></i></button>
+                    <button class="icon-btn" id="profile-btn" title="Profile"><i class="fas fa-user-circle"></i></button>
+                    <button id="theme-toggle" class="theme-toggle-btn"><i class="fas fa-sun"></i></button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content">
+                <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; margin-bottom: 30px; color: var(--text-color);">Dashboard Overview</h1>
+
+                <!-- Stats Cards -->
+                <div class="grid" id="dashboard-stats">
+                    <div class="card" data-api-target="total-orders">
+                        <h3>Total Orders</h3>
+                        <p style="font-size: 48px; font-weight: 700; color: #E94560; margin: 10px 0;">--</p>
+                    </div>
+                    <div class="card" data-api-target="revenue">
+                        <h3>Revenue</h3>
+                        <p style="font-size: 48px; font-weight: 700; color: #E94560; margin: 10px 0;">--</p>
+                    </div>
+                    <div class="card" data-api-target="active-customers">
+                        <h3>Customers</h3>
+                        <p style="font-size: 48px; font-weight: 700; color: #E94560; margin: 10px 0;">--</p>
+                    </div>
+                    <div class="card" data-api-target="menu-items">
+                        <h3>Menu Items</h3>
+                        <p style="font-size: 48px; font-weight: 700; color: #E94560; margin: 10px 0;">--</p>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="card">
+                    <h3>Recent Orders</h3>
+                    <table class="table" id="recent-orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-orders-tbody">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>

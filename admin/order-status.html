@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Order Status - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                </div>
+                <ul>
+                    <li><a href="index.html">Dashboard Home</a></li>
+                    <li><a href="manage-menu.html">Manage Menu</a></li>
+                    <li><a href="orders.html">View Orders</a></li>
+                    <li><a href="order-status.html" class="active">Update Order Status</a></li>
+                    <li><a href="reports.html">View Reports</a></li>
+                    <li><a href="manage-admins.html">Admin & Delivery Management</a></li>
+                </ul>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                    <span>Admin Panel</span>
+                </div>
+                <div class="admin-info">
+                    Welcome, Admin
+                </div>
+                <button id="theme-toggle" class="theme-toggle-btn">☀</button>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content">
+                <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; margin-bottom: 30px; color: var(--text-color);">Update Order Status</h1>
+
+                <!-- Status Update Form -->
+                <div class="card" id="status-update-section">
+                    <h3>Update Order Status</h3>
+                    <form style="margin-top: 15px;" id="status-update-form">
+                        <div class="form-group">
+                            <label for="order-id">Order ID</label>
+                            <input type="text" id="order-id" name="order-id" placeholder="e.g., #12345" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-status">New Status</label>
+                                <select id="new-status" name="new-status" required>
+                                    <option value="">Select Status</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Preparing">Preparing</option>
+                                    <option value="Out for Delivery">Out for Delivery</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                        </div>
+                        <button type="submit" class="btn" id="update-status-btn">Update Status</button>
+                    </form>
+                </div>
+
+                <!-- Pending Orders -->
+                <div class="card">
+                    <h3>All Orders</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Current Status</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                 <!-- Status Update Feedback -->
+                <div id="status-feedback" style="display: none; background-color: #66bb6a; color: white; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; font-weight: 600;">
+                    Status Updated Successfully!
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tbody = document.getElementById('orders-tbody');
+            const updateForm = document.getElementById('status-update-form');
+            const feedback = document.getElementById('status-feedback');
+
+            async function loadOrders() {
+                try {
+                    const orders = await API.getOrders();
+                    tbody.innerHTML = orders.map(order => `
+                        <tr>
+                            <td>#${order.id}</td>
+                            <td>
+                                <div>${order.customer_name || 'Guest'}</div>
+                                <div style="font-size: 12px; color: var(--muted-text);">${order.customer_phone || ''}</div>
+                                <div style="font-size: 12px; color: var(--muted-text);">${order.customer_address || ''}</div>
+                            </td>
+                            <td>${order.items_summary || 'N/A'}</td>
+                            <td>$${order.total_amount}</td>
+                            <td><span class="status ${order.status.toLowerCase().replace(/ /g, '-')}">${order.status}</span></td>
+                            <td>
+                                <select class="status-select" onchange="updateOrderStatus(${order.id}, this.value)">
+                                    <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Preparing" ${order.status === 'Preparing' ? 'selected' : ''}>Preparing</option>
+                                    <option value="Out for Delivery" ${order.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                                    <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                    <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                    `).join('');
+                } catch (error) {
+                    tbody.innerHTML = '<tr><td colspan="6">Error loading orders</td></tr>';
+                }
+            }
+
+            window.updateOrderStatus = async (id, status) => {
+                try {
+                    if (status === 'Out for Delivery') {
+                        const dIdStr = window.prompt('Enter Delivery User ID to assign:');
+                        const dId = dIdStr ? parseInt(dIdStr, 10) : NaN;
+                        if (!Number.isFinite(dId) || dId <= 0) {
+                            alert('Invalid Delivery User ID');
+                            return;
+                        }
+                        await API.assignOrder(id, dId);
+                    } else {
+                        await API.updateOrderStatus(id, status);
+                    }
+                    showFeedback();
+                    loadOrders();
+                } catch (error) {
+                    alert('Failed to update status: ' + error.message);
+                }
+            };
+
+            function showFeedback() {
+                feedback.style.display = 'block';
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 3000);
+            }
+
+            updateForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const id = document.getElementById('order-id').value.replace('#', '');
+                const status = document.getElementById('new-status').value;
+                if (!id || !status) return;
+
+                try {
+                    await API.updateOrderStatus(id, status);
+                    showFeedback();
+                    updateForm.reset();
+                    loadOrders();
+                } catch (error) {
+                    alert('Failed to update status: ' + error.message);
+                }
+            });
+
+            loadOrders();
+        });
+    </script>
+</body>
+</html>

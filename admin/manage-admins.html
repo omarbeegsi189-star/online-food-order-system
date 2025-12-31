@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin & Delivery Management - Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                </div>
+                <ul>
+                    <li><a href="index.html">Dashboard Home</a></li>
+                    <li><a href="manage-menu.html">Manage Menu</a></li>
+                    <li><a href="orders.html">View Orders</a></li>
+                    <li><a href="order-status.html">Update Order Status</a></li>
+                    <li><a href="reports.html">View Reports</a></li>
+                    <li><a href="manage-admins.html" class="active">Admin & Delivery Management</a></li>
+                </ul>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="logo">
+                    <img src="../media/logo-icon.png" alt="Healthy Food Logo">
+                    <span>Admin Panel</span>
+                </div>
+                <div class="admin-info">
+                    Welcome, Admin
+                </div>
+                <button id="theme-toggle" class="theme-toggle-btn">☀</button>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content">
+                <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; margin-bottom: 30px; color: var(--text-color);">Admin & Delivery Management</h1>
+
+                <!-- Tabs
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showTab('manage-admins')">Manage Admins</button>
+                    <button class="tab-btn" onclick="showTab('manage-delivery')">Manage Delivery Agents</button>
+                </div> -->
+
+                <!-- Manage Admins Tab -->
+                <div id="manage-admins" class="tab-content active">
+                    <h2>Manage Admins</h2>
+
+                    <!-- Add Admin Form -->
+                    <div class="card">
+                        <h3>Add New Admin</h3>
+                        <form id="add-admin-form" style="margin-top: 15px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label for="admin-name">Full Name</label>
+                                    <input type="text" id="admin-name" placeholder="e.g., John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-email">Email</label>
+                                    <input type="email" id="admin-email" placeholder="admin@example.com" required>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label for="admin-phone">Phone Number</label>
+                                    <input type="tel" id="admin-phone" placeholder="+1 (555) 123-4567" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-role">Role</label>
+                                    <select id="admin-role" required>
+                                        <option value="">Select Role</option>
+                                        <option value="super-admin">Super Admin</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="moderator">Moderator</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label for="admin-username">Username</label>
+                                    <input type="text" id="admin-username" placeholder="Enter username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-password">Password</label>
+                                    <input type="password" id="admin-password" placeholder="Enter password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn">Add Admin</button>
+                        </form>
+                    </div>
+
+                    <!-- Current Admins -->
+                    <div class="card">
+                        <h3>Current Admins</h3>
+                        <table class="table" id="admins-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>john.doe@example.com</td>
+                                    <td>+1 (555) 123-4567</td>
+                                    <td>Super Admin</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary">Edit</button>
+                                        <button class="btn" style="background-color: #ef5350;">Remove</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>jane.smith@example.com</td>
+                                    <td>+1 (555) 987-6543</td>
+                                    <td>Admin</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary">Edit</button>
+                                        <button class="btn" style="background-color: #ef5350;">Remove</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Manage Delivery Agents Tab -->
+                <div id="manage-delivery" class="tab-content">
+                    <h2>Manage Delivery Agents</h2>
+
+                    <!-- Add Delivery Agent Form -->
+                    <div class="card">
+                        <h3>Add New Delivery Agent</h3>
+                        <form id="add-delivery-agent-form" style="margin-top: 15px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label for="agent-name">Full Name</label>
+                                    <input type="text" id="agent-name" placeholder="e.g., Mike Johnson" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="agent-email">Email</label>
+                                    <input type="email" id="agent-email" placeholder="agent@example.com" required>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label for="agent-phone">Phone Number</label>
+                                    <input type="tel" id="agent-phone" placeholder="+1 (555) 123-4567" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle-type">Vehicle Type</label>
+                                    <select id="vehicle-type" required>
+                                        <option value="">Select Vehicle</option>
+                                        <option value="bike">Bike</option>
+                                        <option value="scooter">Scooter</option>
+                                        <option value="car">Car</option>
+                                        <option value="van">Van</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-area">Delivery Area</label>
+                                <input type="text" id="delivery-area" placeholder="e.g., Downtown, Midtown" required>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="form-group">
+                                    <label for="delivery-username">Username</label>
+                                    <input type="text" id="delivery-username" placeholder="Enter username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="delivery-password">Password</label>
+                                    <input type="password" id="delivery-password" placeholder="Enter password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn">Add Delivery Agent</button>
+                        </form>
+                    </div>
+
+                    <!-- Current Delivery Agents -->
+                    <div class="card">
+                        <h3>Current Delivery Agents</h3>
+                        <table class="table" id="delivery-agents-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Vehicle</th>
+                                    <th>Area</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mike Johnson</td>
+                                    <td>mike.johnson@example.com</td>
+                                    <td>+1 (555) 111-2222</td>
+                                    <td>Bike</td>
+                                    <td>Downtown</td>
+                                    <td><span class="status active">Available</span></td>
+                                    <td>
+                                        <button class="btn btn-secondary">Edit</button>
+                                        <button class="btn" style="background-color: #ef5350;">Remove</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            // Tab Switching
+            window.showTab = (tabId) => {
+                contents.forEach(content => content.classList.remove('active'));
+                tabs.forEach(tab => tab.classList.remove('active'));
+                
+                document.getElementById(tabId).classList.add('active');
+                document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
+            };
+
+            // Load Data
+            loadAdmins();
+            loadDeliveryAgents();
+
+            // Forms
+                document.getElementById('add-admin-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if ((currentUser.role || '').toLowerCase() !== 'super-admin') {
+                        alert('Only super admin can add admins');
+                        return;
+                    }
+                    const formData = {
+                        full_name: document.getElementById('admin-name').value,
+                        username: document.getElementById('admin-username').value,
+                        password: document.getElementById('admin-password').value,
+                        phone: document.getElementById('admin-phone').value,
+                        role: document.getElementById('admin-role').value
+                    };
+                    try {
+                        await API.addAdmin(formData);
+                    alert('Admin added successfully');
+                    e.target.reset();
+                    loadAdmins();
+                } catch (error) {
+                    alert('Failed to add admin: ' + error.message);
+                }
+            });
+
+                document.getElementById('add-delivery-agent-form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if ((currentUser.role || '').toLowerCase() !== 'super-admin') {
+                        alert('Only super admin can add delivery agents');
+                        return;
+                    }
+                    const formData = {
+                        full_name: document.getElementById('agent-name').value,
+                        username: document.getElementById('delivery-username').value,
+                        password: document.getElementById('delivery-password').value,
+                        phone: document.getElementById('agent-phone').value,
+                        vehicle: document.getElementById('vehicle-type').value,
+                        area: document.getElementById('delivery-area').value
+                    };
+                    try {
+                    await API.addDeliveryUser(formData);
+                    alert('Delivery Agent added successfully');
+                    e.target.reset();
+                    loadDeliveryAgents();
+                } catch (error) {
+                    alert('Failed to add agent: ' + error.message);
+                }
+            });
+        });
+
+        async function loadAdmins() {
+            const tbody = document.querySelector('#admins-table tbody');
+            try {
+                const admins = await API.getAdmins();
+                tbody.innerHTML = admins.map(admin => `
+                    <tr>
+                        <td>${admin.full_name || 'N/A'}</td>
+                        <td>${admin.username}</td>
+                        <td>${admin.phone || 'N/A'}</td>
+                        <td>${admin.role || 'Admin'}</td>
+                        <td><span class="status active">Active</span></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" data-id="${admin.id}" data-type="admin" ${((admin.role || '').toLowerCase() === 'super-admin') ? 'disabled title="Cannot remove super admin"' : ''}>Remove</button>
+                        </td>
+                    </tr>
+                `).join('');
+                tbody.querySelectorAll('button[data-type="admin"]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            await API.deleteAdmin(id);
+                            loadAdmins();
+                        } catch (error) {
+                            alert('Failed to remove admin: ' + (error.message || 'Error'));
+                        }
+                    });
+                });
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="6">Error loading admins</td></tr>';
+            }
+        }
+
+        async function loadDeliveryAgents() {
+            const tbody = document.querySelector('#delivery-agents-table tbody');
+            try {
+                const agents = await API.getDeliveryUsers();
+                tbody.innerHTML = agents.map(agent => `
+                    <tr>
+                        <td>${agent.full_name || 'N/A'}</td>
+                        <td>${agent.username}</td>
+                        <td>${agent.phone || 'N/A'}</td>
+                        <td>${agent.vehicle || 'N/A'}</td>
+                        <td>${agent.area || 'N/A'}</td>
+                        <td><span class="status ${agent.status === 'Available' ? 'active' : 'busy'}">${agent.status}</span></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" data-id="${agent.id}" data-type="delivery" ${(JSON.parse(localStorage.getItem('user') || '{}').role || '').toLowerCase() !== 'super-admin' ? 'disabled title="Only super admin can remove"' : ''}>Remove</button>
+                        </td>
+                    </tr>
+                `).join('');
+                tbody.querySelectorAll('button[data-type="delivery"]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.getAttribute('data-id');
+                        try {
+                            await API.deleteDeliveryUser(id);
+                            loadDeliveryAgents();
+                        } catch (error) {
+                            alert('Failed to remove agent: ' + (error.message || 'Error'));
+                        }
+                    });
+                });
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="7">Error loading agents</td></tr>';
+            }
+        }
+    </script>
+</body>
+</html>

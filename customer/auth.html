@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Healthy Bites</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="media/logo-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --brand-red: #E94560;
+            --brand-green: #27ae60;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Gradient Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg,
+                    var(--brand-red),
+                    var(--brand-green),
+                    var(--brand-red));
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Login Card */
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 48px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+            margin: 20px;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 16px;
+            object-fit: contain;
+        }
+
+        h1 {
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            border-color: var(--brand-red);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
+        }
+
+        .remember-forgot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            accent-color: var(--brand-red);
+            width: 16px;
+            height: 16px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--brand-red);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(233, 69, 96, 0.2);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(233, 69, 96, 0.3);
+            background: #d63d52;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        /* Customized Google Button */
+        .google-btn-wrapper {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Custom Google button styling if creating a custom button, 
+           but we'll use the One Tap / Button API */
+
+        .signup-link {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .signup-link a {
+            color: var(--brand-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            text-align: left;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Main Card -->
+    <div class="login-card">
+        <img src="media/logo-icon.png" alt="Logo" class="logo-img">
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Enter your details to sign in</p>
+
+        <div id="global-error" class="error-message"></div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" required placeholder="hello@example.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" id="login-remember" checked>
+                    <span>Remember me</span>
+                </label>
+                <!-- Forgot password link could go here -->
+            </div>
+
+            <button type="submit" class="login-btn">
+                Sign In
+            </button>
+        </form>
+
+        <div class="divider">or continue with</div>
+
+        <!-- Google Button Container -->
+        <div class="google-btn-wrapper">
+            <div id="g_id_onload" data-client_id="" data-context="signin" data-ux_mode="popup"
+                data-callback="handleGoogleCredential" data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline" data-text="signin_with"
+                data-size="large" data-logo_alignment="left">
+            </div>
+        </div>
+
+        <div class="signup-link">
+            Don't have an account? <a href="signup.html">Create free account</a>
+        </div>
+        <div class="index-link">
+            <a href="index.html">back</a>
+    </div>
+</div>
+    <!-- Scripts -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module">
+        import { API } from './js/utils.js';
+        import authManager from './js/auth.js';
+
+        // Initialize Google Sign-In with Client ID from backend
+        async function initGoogle() {
+            try {
+                const config = await API.request('/auth/customer/google/config');
+                if (config && config.client_id) {
+                    const gIdOnload = document.getElementById('g_id_onload');
+                    gIdOnload.setAttribute('data-client_id', config.client_id);
+                } else {
+                    console.warn('Google Client ID not configured');
+                    document.querySelector('.google-btn-wrapper').style.display = 'none';
+                }
+            } catch (err) {
+                console.error('Failed to load Google config:', err);
+            }
+        }
+
+        // Global handler for Google Sign-In callback
+        window.handleGoogleCredential = async function (response) {
+            try {
+                const data = await API.request('/auth/customer/google', {
+                    method: 'POST',
+                    body: { credential: response.credential }
+                });
+
+                if (data.user) {
+                    // Success
+                    const token = 'session_' + data.user.id; // Mock token logic from existing auth
+                    localStorage.setItem('healthy_token', JSON.stringify(token));
+                    localStorage.setItem('healthy_user', JSON.stringify({ ...data.user, role: 'customer' }));
+
+                    showSuccess('Login successful! Redirecting...');
+
+                    setTimeout(() => {
+                        const ret = localStorage.getItem('customer_return_to');
+                        if (ret) {
+                            localStorage.removeItem('customer_return_to');
+                            window.location.href = ret;
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 1000);
+                }
+            } catch (err) {
+                showError('Google sign-in failed. Please try again.');
+                console.error(err);
+            }
+        };
+
+        // Standard Login Handler
+        window.handleLogin = async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const remember = document.getElementById('login-remember').checked;
+
+            try {
+                const result = await authManager.login(email, password);
+                if (result.success) {
+                    if (!remember) {
+                        // Clear local storage if remember me is unchecked (use session only)
+                        // Note: Implementation depends on authManager logic, but here we just follow existing pattern
+                    }
+                    showSuccess('Login successful!');
+                    setTimeout(() => {
+                        const ret = localStorage.getItem('customer_return_to');
+                        window.location.href = ret || 'index.html';
+                        localStorage.removeItem('customer_return_to');
+                    }, 1000);
+                } else {
+                    showError('Invalid email or password');
+                }
+            } catch (err) {
+                showError('An error occurred. Please try again.');
+            }
+        };
+
+        function showError(msg) {
+            const el = document.getElementById('global-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+            el.style.color = '#e74c3c';
+            el.style.background = 'rgba(231, 76, 60, 0.1)';
+            el.style.borderColor = 'rgba(231, 76, 60, 0.2)';
+        }
+
+        function showSuccess(msg) {
+            const el = document.getElementById('global-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+            el.style.color = '#27ae60';
+            el.style.background = 'rgba(39, 174, 96, 0.1)';
+            el.style.borderColor = 'rgba(39, 174, 96, 0.2)';
+        }
+
+        window.addEventListener('load', initGoogle);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Customer Profile • Healthy Bites</title>
+        <link rel="icon" type="image/png" href="media/logo-icon.png">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/profile.css">
+    </head>
+    <body class="profile-page">
+        <header class="navbar">
+                <div class="logo">
+                        <img src="media/logo-icon.png" alt="Healthy Bites Logo" class="logo-img">
+                        Healthy Bites
+                </div>
+        
+                <nav class="nav-links">
+                        <a href="index.html">Home</a>
+                        <a href="menu.html">Food Menu</a>
+                        <a href="cart.html">Cart</a>
+                        <a href="auth.html#login" id="login-link">Login</a>
+                        <!-- Auth links removed for public browsing -->
+                        <a href="customer_profile.html" id="profile-link" style="display: none;">Profile</a>
+                        <a href="#" id="logout-btn" style="display: none;" onclick="authManager.logout()">Logout</a>
+                        <a href="profile.html">Profile</a>
+                </nav>
+                <div class="actions">
+                        <span id="user-name-display" style="display: none; margin-right: 15px; font-weight: 600; color: var(--primary-color);"></span>
+                        <button id="theme-toggle" class="theme-toggle-btn">☀</button>
+                </div>
+        </header>
+
+        <main class="container-narrow">
+            <h1 class="page-title">My Profile</h1>
+            
+            <!-- Tabs Navigation -->
+            <div class="profile-tabs">
+                <button class="tab-btn active" data-tab="user-info">User Info</button>
+                <button class="tab-btn" data-tab="order-history">Order History</button>
+                <button class="tab-btn" data-tab="favorites">Favorite</button>
+            </div>
+
+            <!-- Section 1: User Data -->
+            <section class="profile-section tab-content active" id="user-info">
+                <div class="section-header">
+                    <h2>User Information</h2>
+                    <button id="edit-profile-btn" class="btn btn-sm btn-outline">Edit</button>
+                </div>
+                <div class="glass-card user-info-card">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="label">Full Name</span>
+                            <span class="value" id="profile-name-display">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Email</span>
+                            <span class="value" id="profile-email-display">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Phone</span>
+                            <span class="value" id="profile-phone-display">--</span>
+                        </div>
+                         <div class="info-item">
+                            <span class="label">Address</span>
+                            <span class="value" id="profile-address-display">--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Order History -->
+            <section class="profile-section tab-content" id="order-history">
+                <div class="section-header">
+                    <h2>Order History</h2>
+                </div>
+                <div class="glass-card">
+                    <div class="orders-container" id="orders-list">
+                        <!-- Orders will be injected here -->
+                        <div class="loading-state">Loading orders...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Favorite Items -->
+            <section class="profile-section tab-content" id="favorites">
+                <div class="section-header">
+                    <h2>Favorite Items</h2>
+                </div>
+                <div class="glass-card">
+                    <div class="favorites-grid" id="favorites-grid">
+                        <!-- Favorites will be injected here -->
+                        <div class="loading-state">Loading favorites...</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modals -->
+        <div id="edit-profile-modal" class="modal-backdrop" aria-hidden="true">
+            <div class="modal">
+                <div class="glass-card">
+                    <h3>Edit Profile</h3>
+                    <form id="edit-profile-form">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input name="name" placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input name="email" placeholder="Email" readonly style="opacity: 0.7; cursor: not-allowed;">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input name="phone" placeholder="Phone">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input name="address" placeholder="Address">
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" id="close-edit-modal" class="btn btn-ghost">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast" class="toast" role="status" aria-live="polite">Saved</div>
+
+        <script src="theme.js"></script>
+        <script type="module" src="js/navbar.js"></script>
+        <script type="module" src="js/profile.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                if (window.Profile && typeof window.Profile.init === 'function') window.Profile.init();
+            });
+        </script>
+    </body>
+</html>
